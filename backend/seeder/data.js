@@ -34,19 +34,19 @@ export default [
       images: [
         {
           public_id: "shopit/products/demo/b9m0ddogmkd8xnypmh1l",
-          url: "http://res.cloudinary.com/udemy-courses/image/upload/v1689961785/shopit/products/demo/b9m0ddogmkd8xnypmh1l.jpg",
+          url: "https://www.hypercel.com/assets/images/products/maginfy/14065_NZT_USB-C_All_in_One_Adapter_001.jpg",
         },
         {
           public_id: "shopit/products/demo/i0rjlownsug7ihiqy2ag",
-          url: "http://res.cloudinary.com/udemy-courses/image/upload/v1689961788/shopit/products/demo/i0rjlownsug7ihiqy2ag.jpg",
+          url: "https://www.aivanet.com/wp-content/uploads/2020/01/1580418012_3618841558695.jpg",
         },
         {
           public_id: "shopit/products/demo/w9ttz25bj24he0krbax6",
-          url: "http://res.cloudinary.com/udemy-courses/image/upload/v1689961790/shopit/products/demo/w9ttz25bj24he0krbax6.jpg",
+          url: "https://www.aivanet.com/wp-content/uploads/2020/01/1580418012_3618841558695.jpg",
         },
         {
           public_id: "shopit/products/demo/kqenveun6pifklr9mj3i",
-          url: "http://res.cloudinary.com/udemy-courses/image/upload/v1689961793/shopit/products/demo/kqenveun6pifklr9mj3i.jpg",
+          url: "https://www.aivanet.com/wp-content/uploads/2020/01/1580418012_3618841558695.jpg",
         },
       ],
       category: "Electronics",
@@ -64,11 +64,11 @@ export default [
       images: [
         {
           public_id: "shopit/products/demo/whezlvjnrkidycmwyhzu",
-          url: "http://res.cloudinary.com/udemy-courses/image/upload/v1689961825/shopit/products/demo/whezlvjnrkidycmwyhzu.jpg",
+          url: "https://images-na.ssl-images-amazon.com/images/I/71I8F4HsMlL._AC_SL1500_.jpg",
         },
         {
           public_id: "shopit/products/demo/wqakdatlgelfbcydmomr",
-          url: "http://res.cloudinary.com/udemy-courses/image/upload/v1689961828/shopit/products/demo/wqakdatlgelfbcydmomr.jpg",
+          url: "https://images-na.ssl-images-amazon.com/images/I/71I8F4HsMlL._AC_SL1500_.jpg",
         },
       ],
       category: "Electronics",
@@ -86,12 +86,12 @@ export default [
       images: [
         {
           public_id: "shopit/products/demo/s2bqwkc4b7gjzxa3p04m",
-          url: "http://res.cloudinary.com/udemy-courses/image/upload/v1689961845/shopit/products/demo/s2bqwkc4b7gjzxa3p04m.jpg",
+          url: "https://d2cdo4blch85n8.cloudfront.net/wp-content/uploads/2020/09/Bose-QuietComfort-35-II-Gaming-Headset-image-6.jpg",
           _id: "64bac579e3048a1f5fdc074b",
         },
         {
           public_id: "shopit/products/demo/t6jcqjfntqnnsh2f3pw2",
-          url: "http://res.cloudinary.com/udemy-courses/image/upload/v1689961848/shopit/products/demo/t6jcqjfntqnnsh2f3pw2.jpg",
+          url: "https://d2cdo4blch85n8.cloudfront.net/wp-content/uploads/2020/09/Bose-QuietComfort-35-II-Gaming-Headset-image-6.jpg",
           _id: "64bac579e3048a1f5fdc074c",
         },
       ],
@@ -110,15 +110,15 @@ export default [
       images: [
         {
           public_id: "shopit/products/demo/sqese5xqf6ay1jkswtfp",
-          url: "http://res.cloudinary.com/udemy-courses/image/upload/v1689961861/shopit/products/demo/sqese5xqf6ay1jkswtfp.jpg",
+          url: "https://forroshgah.com/us/wp-content/uploads/2021/01/2-1024x827.jpg",
         },
         {
           public_id: "shopit/products/demo/yndc6awfjozxrmd5ayld",
-          url: "http://res.cloudinary.com/udemy-courses/image/upload/v1689961864/shopit/products/demo/yndc6awfjozxrmd5ayld.jpg",
+          url: "https://forroshgah.com/us/wp-content/uploads/2021/01/2-1024x827.jpg",
         },
         {
           public_id: "shopit/products/demo/q86wvqtv8c2oppan4jre",
-          url: "http://res.cloudinary.com/udemy-courses/image/upload/v1689961866/shopit/products/demo/q86wvqtv8c2oppan4jre.jpg",
+          url: "https://m.media-amazon.com/images/I/7120GgUKj3L.jpg",
         },
       ],
       category: "Electronics",
