@@ -27,7 +27,7 @@ const ProductDetails = () => {
     if (isError) {
       toast.error(error?.data?.message);
     }
-  }, [isError]);
+  }, [error?.data?.message, isError]);
 
   if (isLoading) return <Loader />;
 
