@@ -10,7 +10,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const [login, { isLoading, error}] = useLoginMutation();
+    const [login, { isLoading, error, data }] = useLoginMutation();
 
     const { isAuthenticated} = useSelector((state) => state.auth)
 

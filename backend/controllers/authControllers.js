@@ -1,70 +1,83 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import User from "../models/user.js";
 import { getResetPasswordTemplate } from "../utils/emailTemplates.js";
-import ErrorHandler from "../utils/errorHandler.js"
+import ErrorHandler from "../utils/errorHandler.js";
 import sendToken from "../utils/sendToken.js";
 import sendEmail from "../utils/sendEmail.js";
 import crypto from "crypto";
-import user from "../models/user.js";
-
-
+import { delete_file, upload_file } from "../utils/cloudinary.js";
 
 
 //Register User => /api/v1/register
-export const registerUser = catchAsyncErrors(async (req, res, next) =>{
-    const {name, email, password } = req.body;
+export const registerUser = catchAsyncErrors(async (req, res, next) => {
+  const { name, email, password } = req.body;
 
-    const user = await User.create({
-        name,
-        email,
-        password,
-    });
+  const user = await User.create({
+    name,
+    email,
+    password,
+  });
 
-    sendToken(user, 201, res);
-
+  sendToken(user, 201, res);
 });
-
 
 // Login user   =>  /api/v1/login
 export const loginUser = catchAsyncErrors(async (req, res, next) => {
-    const { email, password } = req.body;
-  
-    if (!email || !password) {
-      return next(new ErrorHandler("Please enter email & password", 400));
-    }
-  
-    // Find user in the database
-    const user = await User.findOne({ email }).select("+password");
-  
-    if (!user) {
-      return next(new ErrorHandler("Invalid email or password", 401));
-    }
-  
-    // Check if password is correct
-    const isPasswordMatched = await user.comparePassword(password);
-  
-    if (!isPasswordMatched) {
-      return next(new ErrorHandler("Invalid email or password", 401));
-    }
-  
-    sendToken(user, 200, res);
+  const { email, password } = req.body;
 
-  });
+  if (!email || !password) {
+    return next(new ErrorHandler("Please enter email & password", 400));
+  }
 
+  // Find user in the database
+  const user = await User.findOne({ email }).select("+password");
+
+  if (!user) {
+    return next(new ErrorHandler("Invalid email or password", 401));
+  }
+
+  // Check if password is correct
+  const isPasswordMatched = await user.comparePassword(password);
+
+  if (!isPasswordMatched) {
+    return next(new ErrorHandler("Invalid email or password", 401));
+  }
+
+  sendToken(user, 200, res);
+});
 
 
-  // Logout user   =>  /api/v1/login
+// Logout user   =>  /api/v1/login
 export const logout = catchAsyncErrors(async (req, res, next) => {
   res.cookie("token", null, {
     expires: new Date(Date.now()),
-    httpOnly:true,
+    httpOnly: true,
   });
 
   res.status(200).json({
     message: "Logged Out",
   });
-
 });
+
+
+// Upload user avatar   =>  /api/v1/me/upload_avatar
+export const uploadAvatar = catchAsyncErrors(async (req, res, next) => {
+  const avatarResponse = await upload_file(req.body.avatar, "ecommerceit/avatars");
+
+  // Remove previous avatar
+  if (req?.user?.avatar?.url) {
+    await delete_file(req?.user?.avatar?.public_id);
+  }
+
+  const user = await User.findByIdAndUpdate(req?.user?._id, {
+    avatar: avatarResponse,
+  });
+
+  res.status(200).json({
+    user,
+  });
+});
+
 
 
 // Forgot password   =>  /api/v1/password/forgot
@@ -105,7 +118,6 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-
 // Reset password   =>  /api/v1/password/reset/:token
 export const resetPassword = catchAsyncErrors(async (req, res, next) => {
   // Hash the URL Token
@@ -143,7 +155,6 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
   sendToken(user, 200, res);
 });
 
-
 // Get current user profile  =>  /api/v1/me
 export const getUserProfile = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req?.user?._id);
@@ -152,7 +163,6 @@ export const getUserProfile = catchAsyncErrors(async (req, res, next) => {
     user,
   });
 });
-
 
 // Update Password  =>  /api/v1/password/update
 export const updatePassword = catchAsyncErrors(async (req, res, next) => {
@@ -173,7 +183,6 @@ export const updatePassword = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-
 // Update User Profile  =>  /api/v1/me/update
 export const updateProfile = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
@@ -189,7 +198,6 @@ export const updateProfile = catchAsyncErrors(async (req, res, next) => {
     user,
   });
 });
-
 
 // Get all Users - ADMIN  =>  /api/v1/admin/users
 export const allUsers = catchAsyncErrors(async (req, res, next) => {
@@ -214,7 +222,6 @@ export const getUserDetails = catchAsyncErrors(async (req, res, next) => {
     user,
   });
 });
-
 
 // Update User Details - ADMIN  =>  /api/v1/admin/users/:id
 export const updateUser = catchAsyncErrors(async (req, res, next) => {
@@ -251,5 +258,3 @@ export const deleteUser = catchAsyncErrors(async (req, res, next) => {
     success: true,
   });
 });
-
-  
