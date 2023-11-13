@@ -1,5 +1,5 @@
 import React from "react";
-import Serach from "./Search";
+import Search from "./Search";
 import { useGetMeQuery } from "../../redux/api/userApi";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,16 +7,17 @@ import { useLazyLogoutQuery } from "../../redux/api/authApi";
 
 const Header = () => {
   const navigate = useNavigate();
+
   const { isLoading } = useGetMeQuery();
   const [logout] = useLazyLogoutQuery();
+
+  const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.cart);
 
   const logoutHandler = () => {
     logout();
     navigate(0);
-  }
-
-  const { user } = useSelector((state) => state.auth);
-  const { cartItems } = useSelector((state) => state.cart);
+  };
 
   return (
     <nav className="navbar row">
@@ -28,7 +29,7 @@ const Header = () => {
         </div>
       </div>
       <div className="col-12 col-md-6 mt-2 mt-md-0">
-        <Serach />
+        <Search />
       </div>
       <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
         <a href="/cart" style={{ textDecoration: "none" }}>
@@ -52,7 +53,11 @@ const Header = () => {
             >
               <figure className="avatar avatar-nav">
                 <img
-                  src={user?.avatar ? user?.avatar?.url : "/images/default_avatar.jpg"}
+                  src={
+                    user?.avatar
+                      ? user?.avatar?.url
+                      : "/images/default_avatar.jpg"
+                  }
                   alt="User Avatar"
                   className="rounded-circle"
                 />
@@ -78,8 +83,11 @@ const Header = () => {
                 Profile{" "}
               </Link>
 
-              <Link className="dropdown-item text-danger" to="/"  onClick={logoutHandler}>
-              
+              <Link
+                className="dropdown-item text-danger"
+                to="/"
+                onClick={logoutHandler}
+              >
                 Logout{" "}
               </Link>
             </div>
@@ -96,5 +104,6 @@ const Header = () => {
     </nav>
   );
 };
+
 
 export default Header;

@@ -24,24 +24,25 @@ export const authApi = createApi({
     }),
     login: builder.mutation({
         query(body) {
-            return {
-                url: "/login",
-                method: 'POST',
-                body,
-            };
+          return {
+            url: "/login",
+            method: "POST",
+            body,
+          };
         },
         async onQueryStarted(args, { dispatch, queryFulfilled }) {
-            try {
-                await queryFulfilled;
-                await dispatch(userApi.endpoints.getMe.initiate(null))
-            } catch (error) {
-                console.log(error);
-            }
+          try {
+            await queryFulfilled;
+            await dispatch(userApi.endpoints.getMe.initiate(null));
+          } catch (error) {
+            console.log(error);
+          }
         },
-    }),
-    logout: builder.query({
+      }),
+      logout: builder.query({
         query: () => "/logout",
-    }),
+      }),
+  
   }),
 });
 
