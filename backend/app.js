@@ -3,7 +3,7 @@ const app = express();
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { connectDatabase } from "./config/dbConnect.js";
-import errorMiddleware from "./middlewares/errors.js"
+import errorMiddleware from "./middlewares/errors.js";
 
 // Handle Uncaught exceptions
 process.on("uncaughtException", (err) => {
@@ -15,9 +15,16 @@ process.on("uncaughtException", (err) => {
 dotenv.config({ path: "backend/config/config.env" });
 
 //connecting to database
-connectDatabase()
+connectDatabase();
 
-app.use(express.json({limit: "10mb"}));
+app.use(
+  express.json({
+    limit: "10mb",
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  })
+);
 app.use(cookieParser());
 
 
@@ -25,10 +32,12 @@ app.use(cookieParser());
 import productRoutes from "./routes/products.js";
 import authRoutes from "./routes/auth.js";
 import orderRoutes from "./routes/order.js";
+import paymentRoutes from "./routes/payment.js";
 
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", orderRoutes);
+app.use("/api/v1", paymentRoutes);
 
 // Using error middleware
 app.use(errorMiddleware);
@@ -38,7 +47,6 @@ const server = app.listen(process.env.PORT, () => {
     `Server started on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode.`
   );
 });
-
 
 //Handle Unhandled Promise rejections
 process.on("unhandledRejection", (err) => {
