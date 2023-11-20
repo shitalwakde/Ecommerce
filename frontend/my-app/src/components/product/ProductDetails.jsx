@@ -4,9 +4,11 @@ import { useGetProductDetailsQuery } from "../../redux/api/productsApi";
 import { toast } from "react-hot-toast";
 import Loader from "../layout/Loader";
 import StarRatings from "react-star-ratings";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCartItem } from "../../redux/features/cartSlice";
 import MetaData from "../layout/MetaData";
+import NewReview from "../reviews/NewReview";
+import ListReviews from "../reviews/ListReviews";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -19,6 +21,7 @@ const ProductDetails = () => {
     params?.id
   );
   const product = data?.product;
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
     setActiveImg(
@@ -32,9 +35,9 @@ const ProductDetails = () => {
     if (isError) {
       toast.error(error?.data?.message);
     }
-  }, [error?.data?.message, isError]);
+  }, [isError]);
 
-  const increaseQty = () => {
+  const increseQty = () => {
     const count = document.querySelector(".count");
 
     if (count.valueAsNumber >= product?.stock) return;
@@ -43,7 +46,7 @@ const ProductDetails = () => {
     setQuantity(qty);
   };
 
-  const decreaseQty = () => {
+  const decreseQty = () => {
     const count = document.querySelector(".count");
 
     if (count.valueAsNumber <= 1) return;
@@ -67,7 +70,6 @@ const ProductDetails = () => {
   };
 
   if (isLoading) return <Loader />;
-
 
   return (
     <>
@@ -127,7 +129,7 @@ const ProductDetails = () => {
 
           <p id="product_price">${product?.price}</p>
           <div className="stockCounter d-inline">
-            <span className="btn btn-danger minus" onClick={decreaseQty}>
+            <span className="btn btn-danger minus" onClick={decreseQty}>
               -
             </span>
             <input
@@ -136,7 +138,7 @@ const ProductDetails = () => {
               value={quantity}
               readonly
             />
-            <span className="btn btn-primary plus" onClick={increaseQty}>
+            <span className="btn btn-primary plus" onClick={increseQty}>
               +
             </span>
           </div>
@@ -171,11 +173,18 @@ const ProductDetails = () => {
             Sold by: <strong>{product?.seller}</strong>
           </p>
 
-          <div className="alert alert-danger my-5" type="alert">
-            Login to post your review.
-          </div>
+          {isAuthenticated ? (
+            <NewReview productId={product?._id} />
+          ) : (
+            <div className="alert alert-danger my-5" type="alert">
+              Login to post your review.
+            </div>
+          )}
         </div>
       </div>
+      {product?.reviews?.length > 0 && (
+        <ListReviews reviews={product?.reviews} />
+      )}
     </>
   );
 };
