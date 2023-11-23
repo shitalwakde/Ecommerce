@@ -79,15 +79,24 @@ export const updateOrder = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("You have already delivered this order", 400));
   }
 
+  let productNotFound = false;
+
   // Update products stock
-  order?.orderItems?.forEach(async (item) => {
+  for (const item of order.orderItems) {
     const product = await Product.findById(item?.product?.toString());
     if (!product) {
-      return next(new ErrorHandler("No Product found with this ID", 404));
+      productNotFound = true;
+      break;
     }
     product.stock = product.stock - item.quantity;
     await product.save({ validateBeforeSave: false });
-  });
+  }
+
+  if (productNotFound) {
+    return next(
+      new ErrorHandler("No Product found with one or more IDs.", 404)
+    );
+  }
 
   order.orderStatus = req.body.status;
   order.deliveredAt = Date.now();
@@ -98,8 +107,6 @@ export const updateOrder = catchAsyncErrors(async (req, res, next) => {
     success: true,
   });
 });
-
-
 
 // Delete order  =>  /api/v1/admin/orders/:id
 export const deleteOrder = catchAsyncErrors(async (req, res, next) => {
@@ -115,7 +122,6 @@ export const deleteOrder = catchAsyncErrors(async (req, res, next) => {
     success: true,
   });
 });
-
 
 async function getSalesData(startDate, endDate) {
   const salesData = await Order.aggregate([
@@ -158,7 +164,6 @@ async function getSalesData(startDate, endDate) {
   // Generate an array of dates between start & end Date
   const datesBetween = getDatesBetween(startDate, endDate);
 
-
   // Create final sales data array with 0 for dates without sales
   const finalSalesData = datesBetween.map((date) => ({
     date,
@@ -168,7 +173,6 @@ async function getSalesData(startDate, endDate) {
 
   return { salesData: finalSalesData, totalSales, totalNumOrders };
 }
-
 
 function getDatesBetween(startDate, endDate) {
   const dates = [];
@@ -201,5 +205,4 @@ export const getSales = catchAsyncErrors(async (req, res, next) => {
     totalNumOrders,
     sales: salesData,
   });
-
 });
