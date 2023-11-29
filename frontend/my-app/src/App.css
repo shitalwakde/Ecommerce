@@ -163,12 +163,12 @@ footer {
   margin-left: 0.3rem;
 }
 
-.redColor {
-  color: red;
+.redColor { 
+  color: red !important;
 }
 
 .greenColor {
-  color: green;
+  color: green !important;
 }
 
 #product_image {
